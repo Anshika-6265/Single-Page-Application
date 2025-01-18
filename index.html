@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA with Galaxy Background and Interactive Lists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #feb47b;
+        }
+
+        /* Main Content */
+        #app {
+            padding-top: 5rem;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 3rem;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #ff7e5f;
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            background-color: #feb47b;
+            transform: scale(1.1);
+        }
+
+        /* Page Transitions */
+        .page-enter-active, .page-leave-active {
+            transition: opacity 0.5s ease;
+        }
+        .page-enter, .page-leave-to {
+            opacity: 0;
+        }
+
+        /* List Styles */
+        .list {
+            text-align: left;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            padding-left: 20px;
+            display: none;
+        }
+        .list li {
+            margin-bottom: 1rem;
+        }
+
+        .arrow {
+            cursor: pointer;
+            display: inline-block;
+            margin: 1rem 0;
+            font-size: 2rem;
+            transition: transform 0.3s;
+        }
+        .arrow:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Section-Specific Backgrounds */
+        .section {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 2rem;
+            padding: 2rem;
+        }
+
+        /* External Links Section */
+        .external-links {
+            width: 100%;
+            text-align: center;
+            margin-top: 3rem;
+            background-color: #333;
+            padding: 2rem 0;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .external-links h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        .external-links .link-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .external-links .link-container a {
+            text-decoration: none;
+            color: #fff;
+            text-align: center;
+            transition: transform 0.3s ease;
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .external-links .link-container a:hover {
+            transform: scale(1.1);
+        }
+        .external-links i {
+            font-size: 3rem;
+            color: #feb47b;
+            margin-bottom: 0.5rem;
+        }
+        .external-links .link-name {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            .btn {
+                font-size: 1.2rem;
+                padding: 0.8rem 1.5rem;
+            }
+            .cards-container {
+                flex-direction: column;
+            }
+            .external-links .link-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="app"></div>
+
+    <!-- External Links Section -->
+    <div class="external-links">
+        <h2>Move to Other Shopping Sites</h2>
+        <div class="link-container">
+            <a href="https://www.amazon.com" target="_blank" title="Amazon">
+                <i class="fab fa-amazon"></i>
+                <div class="link-name">Amazon</div>
+            </a>
+            <a href="https://www.flipkart.com" target="_blank" title="Flipkart">
+                <i class="fab fa-shopify"></i>
+                <div class="link-name">Flipkart</div>
+            </a>
+            <a href="https://www.myntra.com" target="_blank" title="Myntra">
+                <i class="fab fa-app-store-ios"></i>
+                <div class="link-name">Myntra</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Routes for SPA
+        const routes = {
+            '/home': {
+                title: 'Welcome to the Home Page!',
+                content: 'This is the homepage of our SPA. Click below to see the lists of features.',
+                list: ['Feature 1', 'Feature 2', 'Feature 3', 'Feature 4']
+            },
+            '/about': {
+                title: 'About Us',
+                content: 'We are a dynamic and creative team building interactive web applications using modern technologies.',
+                list: ['Dynamic Content', 'Smooth Transitions', 'Responsive Design']
+            },
+            '/services': {
+                title: 'Our Services',
+                content: 'We provide amazing web and mobile development services. Take a look at some of our work below.',
+                list: ['Web Development', 'Mobile App Development', 'UI/UX Design', 'API Development']
+            },
+            '/contact': {
+                title: 'Contact Us',
+                content: 'Feel free to get in touch with us! We would love to collaborate on your next project.',
+                list: ['Email Us', 'Call Us', 'Visit Our Office']
+            }
+        };
+
+        // Function to toggle the visibility of the list
+        const toggleList = (id) => {
+            const list = document.getElementById(id);
+            if (list.style.display === "block") {
+                list.style.display = "none";
+            } else {
+                list.style.display = "block";
+            }
+        };
+
+        // Function to render content dynamically
+        const navigateTo = (route) => {
+            const app = document.getElementById('app');
+            app.classList.add('page-leave-active');
+            setTimeout(() => {
+                let routeData = routes[route];
+
+                // Render content with lists and arrows for interaction
+                app.innerHTML = `
+                    <div class="section">
+                        <h1>${routeData.title}</h1>
+                        <p>${routeData.content}</p>
+                        <div>
+                            <div class="arrow" onclick="toggleList('list-${route}')">
+                                &#x2193; Show List
+                            </div>
+                            <ul class="list" id="list-${route}">
+                                ${routeData.list.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                app.classList.remove('page-leave-active');
+                app.classList.add('page-enter-active');
+            }, 500); // Match fade transition timing
+        };
+
+        // Handle navigation link click
+        const handleNavigation = (e) => {
+            e.preventDefault();
+            const route = e.target.getAttribute('href');
+            window.history.pushState({}, '', route);
+            navigateTo(route);
+        };
+
+        // Add event listener for navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', handleNavigation);
+        });
+
+        // Initial page load
+        window.addEventListener('popstate', () => {
+            const route = window.location.hash || '/home';
+            navigateTo(route);
+        });
+
+        // Initialize with default route
+        document.addEventListener('DOMContentLoaded', () => {
+            const route = window.location.hash || '/home';
+            navigateTo(route);
+        });
+    </script>
+
+</body>
+</html>
